@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="nl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f4f1eb" />
+    <title>Bobbie Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+
+    <main class="app-shell">
+      <nav class="topbar">
+        <a class="brand" href="#" aria-label="Bobbie Dashboard home">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 48 48" role="img"><path d="M17 20c-3 0-6-3.5-6-7.2C11 9.5 13 7 15.6 7c3.1 0 5.4 3.4 5.4 7.2 0 3.2-1.7 5.8-4 5.8Zm14 0c-3 0-4-2.6-4-5.8C27 10.4 29.3 7 32.4 7 35 7 37 9.5 37 12.8 37 16.5 34 20 31 20Zm-20.4 9.3c-2.6 0-4.6-2-4.6-4.8S8 19 10.7 19c2.5 0 4.3 2.6 4.3 5.4 0 2.8-1.8 4.9-4.4 4.9Zm26.8 0c-2.6 0-4.4-2.1-4.4-4.9 0-2.8 1.8-5.4 4.3-5.4 2.7 0 4.7 2.7 4.7 5.5s-2 4.8-4.6 4.8ZM24 18c6.4 0 12 7.2 12 13.3 0 5.8-4.6 9.7-12 9.7s-12-3.9-12-9.7C12 25.2 17.6 18 24 18Z" /></svg>
+          </span>
+          <span>Bobbie</span>
+        </a>
+        <div class="nav-actions">
+          <span class="date-chip" id="today"></span>
+          <div class="theme-picker">
+            <button class="theme-toggle" id="themeToggle" type="button" aria-label="Kleurthema kiezen" aria-expanded="false">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18h1.1a1.9 1.9 0 0 0 0-3.8h-.7a1.8 1.8 0 0 1 0-3.6H15A6 6 0 0 0 15 3h-3Z"/><circle cx="7.5" cy="10" r="1"/><circle cx="9.5" cy="6.8" r="1"/><circle cx="14" cy="6.5" r="1"/></svg>
+            </button>
+            <div class="theme-menu" id="themeMenu" role="menu" aria-label="Kleurthema's">
+              <span>Kies je sfeer</span>
+              <button class="theme-option active" data-theme="sage" style="--swatch:#256c4a" type="button"><i></i>Salie</button>
+              <button class="theme-option" data-theme="ocean" style="--swatch:#376ca5" type="button"><i></i>Oceaan</button>
+              <button class="theme-option" data-theme="rose" style="--swatch:#a95d68" type="button"><i></i>Roos</button>
+              <button class="theme-option" data-theme="sunset" style="--swatch:#b8663e" type="button"><i></i>Zonsondergang</button>
+              <button class="theme-option" data-theme="midnight" style="--swatch:#5b557e" type="button"><i></i>Middernacht</button>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <section class="hero">
+        <div class="hero-copy">
+          <div class="eyebrow"><span></span> Bobbie Dashboard</div>
+          <h1>Alles goed met<br /><em>Bobbie.</em></h1>
+          <p>Een fijne plek voor alles wat met jouw beste vriend te maken heeft.</p>
+        </div>
+        <div class="bobbie-portrait-wrap">
+          <span class="portrait-tag">De beste vriend</span>
+          <img class="bobbie-portrait" src="assets/bobbie-portrait.png" alt="Geïllustreerd portret van Bobbie" />
+          <span class="portrait-heart" aria-hidden="true">♥</span>
+        </div>
+      </section>
+
+      <section class="dashboard-grid" aria-label="Dashboard">
+        <article class="weight-card">
+          <div class="card-top">
+            <div>
+              <span class="label">Laatste gewicht</span>
+              <div class="weight-value"><strong id="latestWeight">—</strong><span id="weightUnit"></span></div>
+            </div>
+            <div class="dog-badge" aria-hidden="true">🐕</div>
+          </div>
+          <p class="weight-meta" id="weightMeta">Nog geen gewicht gelogd</p>
+          <button class="primary-button" id="openWeight" type="button">
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 4v12M4 10h12" /></svg>
+            Gewicht loggen
+          </button>
+        </article>
+
+        <article class="quote-card">
+          <div class="quote-icon">♥</div>
+          <blockquote>“Een dag met Bobbie is altijd een goede dag.”</blockquote>
+          <span>— zijn favoriete mens</span>
+        </article>
+      </section>
+
+      <section class="history-section" id="historySection" hidden>
+        <div class="section-heading">
+          <div>
+            <span class="label">Voortgang</span>
+            <h2>Recente metingen</h2>
+          </div>
+          <button class="text-button" id="clearHistory" type="button">Wis alles</button>
+        </div>
+        <div class="history-list" id="historyList"></div>
+      </section>
+
+      <footer>Met liefde gemaakt voor Bobbie <span>♥</span></footer>
+    </main>
+
+    <dialog id="weightDialog">
+      <form method="dialog" id="weightForm">
+        <button class="close-button" id="closeDialog" type="button" aria-label="Sluiten">×</button>
+        <div class="modal-icon">🐾</div>
+        <span class="label">Nieuwe meting</span>
+        <h2>Hoeveel weegt Bobbie?</h2>
+        <p>Vul zijn huidige gewicht in.</p>
+        <label class="weight-input-wrap">
+          <input id="weightInput" name="weight" type="number" min="0.1" max="150" step="0.1" inputmode="decimal" placeholder="0,0" required />
+          <span>kg</span>
+        </label>
+        <div class="form-error" id="formError" aria-live="polite"></div>
+        <button class="primary-button save-button" type="submit">Meting opslaan</button>
+      </form>
+    </dialog>
+
+    <div class="toast" id="toast" role="status">Gewicht opgeslagen ✓</div>
+    <script src="app.js"></script>
+  </body>
+</html>

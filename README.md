@@ -11,6 +11,7 @@ Een persoonlijk, modern dashboard voor Bobbie. Log zijn gewicht, bekijk recente 
 - Gegevens en themakeuze lokaal opgeslagen
 - Responsive ontwerp voor desktop en mobiel
 - Eigen geïllustreerd portret van Bobbie
+- Aparte Bobbie Must-Knows-pagina met commando's, feitjes en avonturen
 
 ## Lokaal starten
 

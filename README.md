@@ -2,6 +2,8 @@
 
 Een persoonlijk, modern dashboard voor Bobbie. Log zijn gewicht, bekijk recente metingen en kies je favoriete kleurthema.
 
+**Live dashboard:** [snorgant.github.io/BobbieDashboard](https://snorgant.github.io/BobbieDashboard/)
+
 ## Functies
 
 - Gewicht loggen en recente metingen bekijken
@@ -16,4 +18,4 @@ Dubbelklik op `start.bat`, of open `index.html` rechtstreeks in een browser. Er 
 
 ## Online
 
-De website wordt bij iedere push naar `main` automatisch gepubliceerd met GitHub Pages.
+De website wordt bij iedere push naar `main` automatisch gepubliceerd met GitHub Pages via de repository [`Snorgant/BobbieDashboard`](https://github.com/Snorgant/BobbieDashboard).

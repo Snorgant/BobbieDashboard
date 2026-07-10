@@ -69,6 +69,23 @@
           </button>
         </article>
 
+        <article class="nickname-card">
+          <div class="card-top">
+            <div>
+              <span class="label">Bobbie is ook...</span>
+              <h2>Bijnaampjes</h2>
+            </div>
+            <div class="nickname-badge" aria-hidden="true">✨</div>
+          </div>
+          <div class="nickname-preview" id="nicknamePreview">
+            <p>Nog geen bijnaampjes toegevoegd</p>
+          </div>
+          <button class="primary-button" id="openNickname" type="button">
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 4v12M4 10h12" /></svg>
+            Bijnaampje toevoegen
+          </button>
+        </article>
+
         <article class="quote-card">
           <div class="quote-icon">♥</div>
           <blockquote>“Een dag met Bobbie is altijd een goede dag.”</blockquote>
@@ -103,6 +120,21 @@
         </label>
         <div class="form-error" id="formError" aria-live="polite"></div>
         <button class="primary-button save-button" type="submit">Meting opslaan</button>
+      </form>
+    </dialog>
+
+    <dialog id="nicknameDialog">
+      <form method="dialog" id="nicknameForm">
+        <button class="close-button" id="closeNicknameDialog" type="button" aria-label="Sluiten">×</button>
+        <div class="modal-icon">✨</div>
+        <span class="label">Een naam uit liefde</span>
+        <h2>Nieuw bijnaampje</h2>
+        <p>Hoe noemen jullie Bobbie nog meer?</p>
+        <label class="text-input-wrap">
+          <input id="nicknameInput" name="nickname" type="text" minlength="1" maxlength="30" autocomplete="off" placeholder="Bijv. Bobster" required />
+        </label>
+        <div class="form-error" id="nicknameError" aria-live="polite"></div>
+        <button class="primary-button save-button" type="submit">Bijnaampje bewaren</button>
       </form>
     </dialog>
 

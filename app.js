@@ -1,5 +1,6 @@
 const STORAGE_KEY = "bobbie-weight-history";
 const THEME_KEY = "bobbie-color-theme";
+const NICKNAME_KEY = "bobbie-nicknames";
 
 const elements = {
   today: document.querySelector("#today"),
@@ -13,6 +14,11 @@ const elements = {
   historySection: document.querySelector("#historySection"),
   historyList: document.querySelector("#historyList"),
   toast: document.querySelector("#toast"),
+  nicknameDialog: document.querySelector("#nicknameDialog"),
+  nicknameForm: document.querySelector("#nicknameForm"),
+  nicknameInput: document.querySelector("#nicknameInput"),
+  nicknameError: document.querySelector("#nicknameError"),
+  nicknamePreview: document.querySelector("#nicknamePreview"),
 };
 
 const dateFormatter = new Intl.DateTimeFormat("nl-NL", { day: "numeric", month: "long", year: "numeric" });
@@ -57,6 +63,21 @@ function saveHistory(history) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
 }
 
+function getNicknames() {
+  try { return JSON.parse(localStorage.getItem(NICKNAME_KEY)) ?? []; }
+  catch { return []; }
+}
+
+function saveNicknames(nicknames) {
+  localStorage.setItem(NICKNAME_KEY, JSON.stringify(nicknames));
+}
+
+function escapeHtml(value) {
+  const element = document.createElement("div");
+  element.textContent = value;
+  return element.innerHTML;
+}
+
 function render() {
   const history = getHistory();
   const latest = history[0];
@@ -77,8 +98,25 @@ function render() {
   elements.historyList.innerHTML = history.slice(0, 5).map((item, index) => `
     <div class="history-row">
       <span class="history-date">${index === 0 ? "Vandaag" : shortDateFormatter.format(new Date(item.date))}</span>
-      <span class="history-weight">${weightFormatter.format(item.weight)} kg</span>
+      <span class="history-actions">
+        <span class="history-weight">${weightFormatter.format(item.weight)} kg</span>
+        <button class="delete-entry" data-delete-weight="${item.date}" type="button" aria-label="Meting verwijderen">×</button>
+      </span>
     </div>
+  `).join("");
+}
+
+function renderNicknames() {
+  const nicknames = getNicknames();
+  if (!nicknames.length) {
+    elements.nicknamePreview.innerHTML = "<p>Nog geen bijnaampjes toegevoegd</p>";
+    return;
+  }
+  elements.nicknamePreview.innerHTML = nicknames.map(item => `
+    <span class="nickname-chip">
+      ${escapeHtml(item.name)}
+      <button data-delete-nickname="${item.id}" type="button" aria-label="${escapeHtml(item.name)} verwijderen">×</button>
+    </span>
   `).join("");
 }
 
@@ -108,6 +146,7 @@ elements.form.addEventListener("submit", (event) => {
   saveHistory(history);
   elements.dialog.close();
   render();
+  elements.toast.textContent = "Gewicht opgeslagen ✓";
   elements.toast.classList.add("show");
   setTimeout(() => elements.toast.classList.remove("show"), 2400);
 });
@@ -119,4 +158,53 @@ document.querySelector("#clearHistory").addEventListener("click", () => {
   }
 });
 
+elements.historyList.addEventListener("click", event => {
+  const button = event.target.closest("[data-delete-weight]");
+  if (!button) return;
+  const updated = getHistory().filter(item => item.date !== button.dataset.deleteWeight);
+  saveHistory(updated);
+  render();
+});
+
+document.querySelector("#openNickname").addEventListener("click", () => {
+  elements.nicknameError.textContent = "";
+  elements.nicknameInput.value = "";
+  elements.nicknameDialog.showModal();
+  setTimeout(() => elements.nicknameInput.focus(), 100);
+});
+
+document.querySelector("#closeNicknameDialog").addEventListener("click", () => elements.nicknameDialog.close());
+elements.nicknameDialog.addEventListener("click", event => {
+  if (event.target === elements.nicknameDialog) elements.nicknameDialog.close();
+});
+
+elements.nicknameForm.addEventListener("submit", event => {
+  event.preventDefault();
+  const name = elements.nicknameInput.value.trim();
+  if (!name || name.length > 30) {
+    elements.nicknameError.textContent = "Vul een bijnaampje van maximaal 30 tekens in.";
+    return;
+  }
+  const nicknames = getNicknames();
+  if (nicknames.some(item => item.name.toLocaleLowerCase("nl-NL") === name.toLocaleLowerCase("nl-NL"))) {
+    elements.nicknameError.textContent = "Dit bijnaampje staat al in de lijst.";
+    return;
+  }
+  nicknames.unshift({ id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()), name });
+  saveNicknames(nicknames);
+  elements.nicknameDialog.close();
+  renderNicknames();
+  elements.toast.textContent = "Bijnaampje opgeslagen ✓";
+  elements.toast.classList.add("show");
+  setTimeout(() => elements.toast.classList.remove("show"), 2400);
+});
+
+elements.nicknamePreview.addEventListener("click", event => {
+  const button = event.target.closest("[data-delete-nickname]");
+  if (!button) return;
+  saveNicknames(getNicknames().filter(item => item.id !== button.dataset.deleteNickname));
+  renderNicknames();
+});
+
 render();
+renderNicknames();
